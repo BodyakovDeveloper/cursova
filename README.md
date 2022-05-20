@@ -1,15 +1,15 @@
 <h1>Managing project</h1>
 
 <h3>In order to run the project with a docker - you need </h3>
-* open terminal
-* come to project folder
-* run command <code>docker compose up </code>
-* wait and enjoy
-* open browser
-* and finally go to <code>localhost:8080</code>
+* open terminal<br>
+* come to project folder<br>
+* run command <code>docker compose up </code><br>
+* wait and enjoy<br>
+* open browser<br>
+* and finally go to <code>localhost:8080</code><br>
 
 <h3>You can log in</h3>
-* admin <code> login: admin, password: admin</code>
+* admin <code> login: admin, password: admin</code><br>
 * user <code> login: user, password: user</code>
 
 <h3>Or sign up</h3>![img](img__signup.png)
