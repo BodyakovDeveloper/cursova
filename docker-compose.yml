@@ -1,0 +1,21 @@
+version: "3.1"
+
+services:
+  web:
+    image: tomcat:9.0
+    build: .
+    container_name: app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - h2
+  h2:
+    container_name: database
+    hostname: h2-database
+    image: nkonev/h2:1.4.200
+    volumes:
+      - ./src/main/resources/initDb.sql:/docker-entrypoint-initdb.d/initDb.sql
+    ports:
+      - "9092:9092"
+      - "8082:8082"
+    restart: "no"

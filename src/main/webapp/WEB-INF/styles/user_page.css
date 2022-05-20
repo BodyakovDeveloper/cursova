@@ -1,0 +1,21 @@
+body {
+    background-color: black;
+}
+
+h1 {
+    text-align: center;
+    padding-top: 15%;
+    color: aqua;
+}
+
+.logout {
+    text-align: center;
+    color: #d80d17;
+}
+
+.logout a {
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #d80d17;
+    text-decoration: none;
+}
