@@ -33,6 +33,7 @@ Technologies:
 * Hibernate
 * Docker
 * Tomcat
+* Maven
 * H2 database
 * JSP & JSTL
 * CSS
