@@ -33,5 +33,4 @@ INSERT INTO users (id, birthday, email, firstName, lastName, login, password, ro
 VALUES (default,'2010-01-01', 'poberezhnik@gmail.com', 'Andriy', 'Poberezhnik', 'poberezhnik', '$2a$12$4mzYUggiLflK82KMK5yB4uwO5BUj.pCTVoIBdtmEq.OtY9VmvRuSa', 2);
 
 INSERT INTO users (id, birthday, email, firstName, lastName, login, password, roleEntity_id)
-VALUES (default, '2010-01-01', 'user@gmail.com', 'Putin', 'Huylo', 'user', '$2a$12$4mzYUggiLflK82KMK5yB4uwO5BUj.pCTVoIBdtmEq.OtY9VmvRuSa', 2);
-
+VALUES (default, '2010-01-01', 'user@gmail.com', 'Putin', 'Huylo', 'loh', '$2a$12$4mzYUggiLflK82KMK5yB4uwO5BUj.pCTVoIBdtmEq.OtY9VmvRuSa', 2);
