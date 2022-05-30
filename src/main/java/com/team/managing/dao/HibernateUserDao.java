@@ -12,28 +12,14 @@ import java.util.List;
 
 @Component
 @EnableTransactionManagement
-public class HibernateUserDao implements UserDao {
+public class HibernateUserDao extends GenericHibernateDao<UserEntity> implements UserDao {
 
     private final SessionFactory sessionFactory;
 
     @Autowired
     public HibernateUserDao(SessionFactory sessionFactory) {
+        super(sessionFactory);
         this.sessionFactory = sessionFactory;
-    }
-
-    public void create(UserEntity userEntity) {
-        Session session = sessionFactory.getCurrentSession();
-        session.save(userEntity);
-    }
-
-    public void update(UserEntity userEntity) {
-        Session session = sessionFactory.getCurrentSession();
-        session.update(userEntity);
-    }
-
-    public void remove(UserEntity userEntity) {
-        Session session = sessionFactory.getCurrentSession();
-        session.remove(userEntity);
     }
 
     @SuppressWarnings("unchecked")

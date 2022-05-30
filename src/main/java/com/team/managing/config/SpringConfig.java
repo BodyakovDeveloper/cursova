@@ -1,18 +1,13 @@
 package com.team.managing.config;
 
-import com.team.managing.captcha.CaptchaService;
-import com.team.managing.captcha.ICaptchaService;
-import com.team.managing.dao.HibernateUserDao;
-import com.team.managing.service.UserDetailService;
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -29,14 +24,9 @@ import org.springframework.web.servlet.view.JstlView;
 import javax.sql.DataSource;
 import java.util.Properties;
 
-import static com.team.managing.constant.ConstantClass.ANNOTATION_SPRING_PROPERTY_SOURCE;
-import static com.team.managing.constant.ConstantClass.DATABASE_CONNECTION_DRIVER;
-import static com.team.managing.constant.ConstantClass.DATABASE_CONNECTION_PASSWORD;
-import static com.team.managing.constant.ConstantClass.DATABASE_CONNECTION_URL;
-import static com.team.managing.constant.ConstantClass.DATABASE_CONNECTION_USERNAME;
 import static com.team.managing.constant.ConstantClass.HIBERNATE_DIALECT;
-import static com.team.managing.constant.ConstantClass.HIBERNATE_DIALECT_H2;
 import static com.team.managing.constant.ConstantClass.PACKAGE_TO_SCAN;
+import static com.team.managing.constant.ConstantClass.PROPERTY_SOURCE;
 import static com.team.managing.constant.ConstantClass.RESOURCE_HANDLERS_CLASSPATH;
 import static com.team.managing.constant.ConstantClass.RESOURCE_HANDLERS_ROOT;
 import static com.team.managing.constant.ConstantClass.VIEW_RESOLVER_PREFIX;
@@ -46,14 +36,23 @@ import static com.team.managing.constant.ConstantClass.VIEW_RESOLVER_SUFFIX;
 @EnableWebMvc
 @EnableTransactionManagement
 @ComponentScan(PACKAGE_TO_SCAN)
-@PropertySource(ANNOTATION_SPRING_PROPERTY_SOURCE)
+@PropertySource(PROPERTY_SOURCE)
 public class SpringConfig implements WebMvcConfigurer {
 
-    private final Environment environment;
+    @Value("${org.hibernate.dialect.H2Dialect}")
+    private String hibernateDialectH2;
 
-    public SpringConfig(Environment environment) {
-        this.environment = environment;
-    }
+    @Value("${hibernate.driver.class.name}")
+    private String driverClassName;
+
+    @Value("${hibernate.connection.url}")
+    private String databaseConnectionUrl;
+
+    @Value("${hibernate.connection.username}")
+    private String databaseConnectionUsername;
+
+    @Value("${hibernate.connection.password}")
+    private String databaseConnectionPassword;
 
     @Bean
     public ViewResolver viewResolver() {
@@ -70,10 +69,10 @@ public class SpringConfig implements WebMvcConfigurer {
     public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
 
-        dataSource.setDriverClassName(environment.getProperty(DATABASE_CONNECTION_DRIVER));
-        dataSource.setUrl(environment.getProperty(DATABASE_CONNECTION_URL));
-        dataSource.setUsername(environment.getProperty(DATABASE_CONNECTION_USERNAME));
-        dataSource.setPassword(environment.getProperty(DATABASE_CONNECTION_PASSWORD));
+        dataSource.setDriverClassName(driverClassName);
+        dataSource.setUrl(databaseConnectionUrl);
+        dataSource.setUsername(databaseConnectionUsername);
+        dataSource.setPassword(databaseConnectionPassword);
 
         return dataSource;
     }
@@ -98,7 +97,7 @@ public class SpringConfig implements WebMvcConfigurer {
 
     private Properties hibernateProperties() {
         Properties hibernateProperties = new Properties();
-        hibernateProperties.setProperty(HIBERNATE_DIALECT, HIBERNATE_DIALECT_H2);
+        hibernateProperties.setProperty(HIBERNATE_DIALECT, hibernateDialectH2);
         return hibernateProperties;
     }
 
@@ -106,16 +105,6 @@ public class SpringConfig implements WebMvcConfigurer {
     public PasswordEncoder passwordEncoder() {
         int passwordStrength = 12;
         return new BCryptPasswordEncoder(passwordStrength);
-    }
-
-    @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider() {
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        daoAuthenticationProvider.setUserDetailsService(new UserDetailService(hibernateUserDao()));
-
-        return daoAuthenticationProvider;
     }
 
     @Override
@@ -127,15 +116,5 @@ public class SpringConfig implements WebMvcConfigurer {
     @Bean
     public RestOperations getRestTemplate() {
         return new RestTemplate();
-    }
-
-    @Bean
-    public HibernateUserDao hibernateUserDao() {
-        return new HibernateUserDao(sessionFactory().getObject());
-    }
-
-    @Bean
-    public ICaptchaService getCaptcha() {
-        return new CaptchaService();
     }
 }

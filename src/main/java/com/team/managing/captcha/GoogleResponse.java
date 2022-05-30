@@ -12,11 +12,6 @@ import lombok.Setter;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.team.managing.constant.ConstantClass.ERROR_CAPTCHA_INPUT_RESPONSE;
-import static com.team.managing.constant.ConstantClass.ERROR_CAPTCHA_INVALID_SECRET;
-import static com.team.managing.constant.ConstantClass.ERROR_CAPTCHA_MISSING_RESPONSE;
-import static com.team.managing.constant.ConstantClass.ERROR_CAPTCHA_MISSING_SECRET;
-
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -28,6 +23,7 @@ import static com.team.managing.constant.ConstantClass.ERROR_CAPTCHA_MISSING_SEC
         "error-codes"
 })
 public class GoogleResponse {
+
     @JsonProperty("success")
     private boolean success;
 
@@ -48,26 +44,25 @@ public class GoogleResponse {
         }
         for(ErrorCode error : errors) {
             switch(error) {
-                case INVALID_RESPONSE:
-                case MISSING_RESPONSE:
+                case InvalidResponse:
+                case MissingResponse:
                     return true;
-                default:
             }
         }
         return false;
     }
 
-    enum ErrorCode {
-        MISSING_SECRET, INVALID_SECRET,
-        MISSING_RESPONSE, INVALID_RESPONSE;
+    static enum ErrorCode {
+        MissingSecret,     InvalidSecret,
+        MissingResponse,   InvalidResponse;
 
-        private static Map<String, ErrorCode> errorsMap = new HashMap<>(4);
+        private static Map<String, ErrorCode> errorsMap = new HashMap<String, ErrorCode>(4);
 
         static {
-            errorsMap.put(ERROR_CAPTCHA_MISSING_SECRET, MISSING_SECRET);
-            errorsMap.put(ERROR_CAPTCHA_INVALID_SECRET, INVALID_SECRET);
-            errorsMap.put(ERROR_CAPTCHA_MISSING_RESPONSE, MISSING_RESPONSE);
-            errorsMap.put(ERROR_CAPTCHA_INPUT_RESPONSE, INVALID_RESPONSE);
+            errorsMap.put("missing-input-secret",   MissingSecret);
+            errorsMap.put("invalid-input-secret",   InvalidSecret);
+            errorsMap.put("missing-input-response", MissingResponse);
+            errorsMap.put("invalid-input-response", InvalidResponse);
         }
 
         @JsonCreator

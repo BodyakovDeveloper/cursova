@@ -43,20 +43,4 @@ public class UserEntity {
 
     @ManyToOne(cascade = CascadeType.REFRESH)
     private RoleEntity roleEntity;
-
-    public UserEntity(String login,
-                      String password,
-                      String email,
-                      String firstName,
-                      String lastName,
-                      Date birthday,
-                      RoleEntity roleEntity) {
-        this.login = login;
-        this.password = password;
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.birthday = birthday;
-        this.roleEntity = roleEntity;
-    }
 }

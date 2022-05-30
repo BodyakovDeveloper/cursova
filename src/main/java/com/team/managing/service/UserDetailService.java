@@ -1,6 +1,6 @@
 package com.team.managing.service;
 
-import com.team.managing.dao.HibernateUserDao;
+import com.team.managing.dao.UserDao;
 import com.team.managing.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,19 +17,19 @@ import java.util.Collections;
 
 import static com.team.managing.constant.ConstantClass.AUTHENTICATION_ROLE_SUFFIX;
 
-@Component("userDetailsService")
+@Component
 public class UserDetailService implements UserDetailsService {
-    private final HibernateUserDao hibernateUserDao;
+    private final UserDao userDao;
 
     @Autowired
-    public UserDetailService(HibernateUserDao hibernateUserDao) {
-        this.hibernateUserDao = hibernateUserDao;
+    public UserDetailService(UserDao userDao) {
+        this.userDao = userDao;
     }
 
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity userEntity = hibernateUserDao.findByLogin(username);
+        UserEntity userEntity = userDao.findByLogin(username);
         if (userEntity == null) {
             throw new UsernameNotFoundException("User: " + username + " not found");
         }

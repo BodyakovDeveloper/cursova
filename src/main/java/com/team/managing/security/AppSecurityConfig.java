@@ -1,6 +1,5 @@
 package com.team.managing.security;
 
-import com.team.managing.constant.ConstantClass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,6 +7,14 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import static com.team.managing.constant.ConstantClass.ROLE_ADMIN;
+import static com.team.managing.constant.ConstantClass.ROLE_USER;
+import static com.team.managing.constant.ConstantClass.ROOT_ADMIN_PAGES;
+import static com.team.managing.constant.ConstantClass.ROOT_LOGIN_PAGE;
+import static com.team.managing.constant.ConstantClass.ROOT_REDIRECT_PAGE;
+import static com.team.managing.constant.ConstantClass.ROOT_SIGNUP_PAGE;
+import static com.team.managing.constant.ConstantClass.ROOT_USER_PAGES;
 
 @EnableWebSecurity
 public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -24,15 +31,17 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                    .csrf().disable()
+                    .cors().disable()
+                    .httpBasic().disable()
                 .authorizeRequests()
-                    .antMatchers("/signup").permitAll()
-                    .antMatchers(ConstantClass.ROOT_USER_PAGES).hasRole(ConstantClass.ROLE_USER)
-                    .antMatchers(ConstantClass.ROOT_ADMIN_PAGES).hasRole(ConstantClass.ROLE_ADMIN)
+                    .antMatchers(ROOT_SIGNUP_PAGE).permitAll()
+                    .antMatchers(ROOT_USER_PAGES).hasRole(ROLE_USER)
+                    .antMatchers(ROOT_ADMIN_PAGES).hasRole(ROLE_ADMIN)
                     .anyRequest().authenticated()
                 .and()
-                    .csrf().disable()
-                    .formLogin().loginPage("/login").permitAll()
-                    .defaultSuccessUrl("/redirect", true);
+                    .formLogin().loginPage(ROOT_LOGIN_PAGE).permitAll()
+                    .defaultSuccessUrl(ROOT_REDIRECT_PAGE, true);
     }
 
     @Autowired

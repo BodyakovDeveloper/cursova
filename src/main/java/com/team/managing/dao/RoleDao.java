@@ -1,7 +1,6 @@
 package com.team.managing.dao;
 
 import com.team.managing.entity.RoleEntity;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 

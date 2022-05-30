@@ -16,28 +16,14 @@ import java.util.List;
 
 @Component
 @EnableTransactionManagement
-public class HibernateRoleDao implements RoleDao {
+public class HibernateRoleDao extends GenericHibernateDao<RoleEntity> implements RoleDao {
 
     private final SessionFactory sessionFactory;
 
     @Autowired
     public HibernateRoleDao(SessionFactory sessionFactory) {
+        super(sessionFactory);
         this.sessionFactory = sessionFactory;
-    }
-
-    public void create(RoleEntity roleEntity) {
-        Session session = sessionFactory.getCurrentSession();
-        session.save(roleEntity);
-    }
-
-    public void update(RoleEntity roleEntity) {
-        Session session = sessionFactory.getCurrentSession();
-        session.update(roleEntity);
-    }
-
-    public void remove(RoleEntity roleEntity) {
-        Session session = sessionFactory.getCurrentSession();
-        session.remove(roleEntity);
     }
 
     @SuppressWarnings("unchecked")
