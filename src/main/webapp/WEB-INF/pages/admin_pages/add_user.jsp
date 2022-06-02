@@ -51,8 +51,8 @@
 
     <div class="input-container ic1">
         <input id="login" class="input" type="text" placeholder=" "
-               pattern="[a-z]{1,15}"
-               title="Username should only contain lowercase letters." name="login" onkeyup='checkInput();' required/>
+               pattern="[a-z]{6,32}"
+               title="Username should only contain lowercase letters. 6>length<32" minlength="6" maxlength="32" name="login" onkeyup='checkInput();' required/>
         <div class="cut"><div class="cutLogin"></div></div>
         <label for="login" class="placeholder">Login</label>
     </div>
@@ -71,7 +71,7 @@
     </div>
 
     <div class="input-container ic2">
-        <input id="email" class="input" type="email" placeholder=" " name="email" onkeyup='checkInput();' required/>
+        <input id="email" class="input" pattern="^(.+)@(.+)$" type="email" placeholder=" " name="email" onkeyup='checkInput();' required/>
         <div class="cut"><div class="cutEmail"></div></div>
         <label for="email" class="placeholder">Email</label>
     </div>

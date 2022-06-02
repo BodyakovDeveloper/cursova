@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @EnableTransactionManagement
 @Transactional
-public class GenericHibernateDao<E> implements Dao<E> {
+public abstract class GenericHibernateDao<E> implements Dao<E> {
 
     private final SessionFactory sessionFactory;
 

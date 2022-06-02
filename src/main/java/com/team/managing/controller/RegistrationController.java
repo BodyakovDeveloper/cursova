@@ -2,8 +2,9 @@ package com.team.managing.controller;
 
 import com.team.managing.captcha.ICaptchaService;
 import com.team.managing.entity.UserEntity;
-import com.team.managing.service.RoleDaoService;
-import com.team.managing.service.UserDaoService;
+import com.team.managing.exception.UserValidationException;
+import com.team.managing.service.RoleService;
+import com.team.managing.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,15 +20,15 @@ import static com.team.managing.constant.ConstantClass.USER_IS_ALREADY_EXIST_MES
 @Controller
 public class RegistrationController {
 
-    private final RoleDaoService roleDaoService;
-    private final UserDaoService userDaoService;
+    private final RoleService roleService;
+    private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final ICaptchaService captchaService;
 
-    public RegistrationController(RoleDaoService roleDaoService, UserDaoService userDaoService,
+    public RegistrationController(RoleService roleService, UserService userService,
                                   PasswordEncoder passwordEncoder, ICaptchaService captchaService) {
-        this.roleDaoService = roleDaoService;
-        this.userDaoService = userDaoService;
+        this.roleService = roleService;
+        this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.captchaService = captchaService;
     }
@@ -41,17 +42,22 @@ public class RegistrationController {
     public String addNewUser(@ModelAttribute("userToRegister") UserEntity user,
                              @RequestParam("g-recaptcha-response") String recaptchaResponse, Model model) {
 
-        user.setRoleEntity(roleDaoService.getRoleByName("USER"));
+        user.setRoleEntity(roleService.getRoleByName("USER"));
 
-        if (userDaoService.isUserExists(user.getLogin(), user.getEmail())) {
+        if (userService.isUserExists(user.getLogin(), user.getEmail())) {
             model.addAttribute("errorMessage", USER_IS_ALREADY_EXIST_MESSAGE);
             return "signup";
         }
 
         if (captchaService.processResponse(recaptchaResponse)) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setRoleEntity(roleDaoService.getRoleByName(ROLE_USER));
-            userDaoService.create(user);
+            user.setRoleEntity(roleService.getRoleByName(ROLE_USER));
+            try {
+                userService.create(user);
+            } catch (UserValidationException e) {
+                model.addAttribute("errorMessage", "Wrong input, try again");
+                return "signup";
+            }
 
             return "redirect:/login";
         } else {

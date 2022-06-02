@@ -8,11 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class RoleDaoService {
+public class RoleService {
 
     private final RoleDao roleDao;
 
-    public RoleDaoService(RoleDao roleDao) {
+    public RoleService(RoleDao roleDao) {
         this.roleDao = roleDao;
     }
 

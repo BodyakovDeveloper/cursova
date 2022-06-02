@@ -50,7 +50,7 @@
 
     <div class="input-container ic1">
         <input id="login" class="input" type="text" placeholder=" "
-               pattern="[a-z]{1,15}"
+               pattern="[a-z]{6,32}"
                title="Username should only contain lowercase letters." name="login" onkeyup='checkInput();' required/>
         <div class="cut">
             <div class="cutLogin"></div>

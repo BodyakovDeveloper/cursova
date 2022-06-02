@@ -2,22 +2,27 @@ package com.team.managing.service;
 
 import com.team.managing.dao.UserDao;
 import com.team.managing.entity.UserEntity;
+import com.team.managing.exception.UserValidationException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Slf4j
 @Service
-public class UserDaoService {
+public class UserService {
     private final UserDao userDao;
-    private final RoleDaoService roleDaoService;
+    private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
+    private final Validator validator;
 
-    public UserDaoService(UserDao userDao, RoleDaoService roleDaoService, PasswordEncoder passwordEncoder) {
+    public UserService(UserDao userDao, RoleService roleService, PasswordEncoder passwordEncoder, Validator validator) {
         this.userDao = userDao;
-        this.roleDaoService = roleDaoService;
+        this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
+        this.validator = validator;
     }
 
     @Transactional
@@ -26,13 +31,24 @@ public class UserDaoService {
     }
 
     @Transactional
-    public void create(UserEntity userEntity) {
-        userDao.create(userEntity);
+    public void create(UserEntity user) throws UserValidationException {
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (!validator.isUserValid(user)) {
+            log.warn("not valid fields: " + validator.getWrongFieldName());
+            throw new UserValidationException("not valid fields :" + validator.getWrongFieldName());
+        }
+        userDao.create(user);
     }
 
     @Transactional
-    public void update(UserEntity userEntity) {
-        userDao.update(userEntity);
+    public void update(UserEntity user) throws UserValidationException {
+
+        if (!validator.isUserValid(user)) {
+            log.warn("not valid fields: " + validator.getWrongFieldName());
+            throw new UserValidationException("not valid fields :" + validator.getWrongFieldName());
+        }
+        userDao.update(user);
     }
 
     @Transactional
@@ -64,7 +80,7 @@ public class UserDaoService {
         }
 
         userFromHtmlForm.setId(userFromDb.getId());
-        userFromHtmlForm.setRoleEntity(roleDaoService.getRoleByName(roleName));
+        userFromHtmlForm.setRoleEntity(roleService.getRoleByName(roleName));
 
         return userFromHtmlForm;
     }
