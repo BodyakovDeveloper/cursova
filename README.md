@@ -24,6 +24,10 @@ You can log in as:
 
 ![img_3.png](img_3.png)
 
+Also we can play ["Dino"](https://codepen.io/MysticReborn/pen/rygqao) game in user page
+
+![dino.png](dino.png)
+
 Technologies:
 * Java 11
 * Spring Core
