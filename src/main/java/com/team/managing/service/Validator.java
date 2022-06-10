@@ -12,7 +12,6 @@ public class Validator {
 
     private static final String REGEX_FOR_NUMBERS = ".*\\d+.*";
     private static final String REGEX_FOR_CHECK_EMAIL = "^(.+)@(.+)$";
-    private static final String REGEX_FOR_CHECK_BCRYPT = "^\\$2a.*";
 
     private static final List<String> NAME_OF_USER_FIELDS = List.of("login", "firstName", "lastName", "password", "id", "role", "email");
     /**
@@ -58,14 +57,6 @@ public class Validator {
             isValid = false;
 
             log.warn("wrong input last name");
-        }
-
-        if (!user.getPassword().matches(REGEX_FOR_CHECK_BCRYPT)
-                && (user.getPassword().length() > 32 || user.getPassword().length() < 6)) {
-            wrongFieldName.append(NAME_OF_USER_FIELDS.get(3)).append(',');
-            isValid = false;
-
-            log.warn("wrong input password");
         }
 
         if (!user.getEmail().isEmpty() && !user.getEmail().matches(REGEX_FOR_CHECK_EMAIL)) {

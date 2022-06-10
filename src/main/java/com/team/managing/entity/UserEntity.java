@@ -13,9 +13,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.sql.Date;
 
-@Entity
 @NoArgsConstructor
 @Data
+@Entity
 @Table(name = "users")
 public class UserEntity {
 

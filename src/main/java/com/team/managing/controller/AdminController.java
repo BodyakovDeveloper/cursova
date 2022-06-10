@@ -82,8 +82,10 @@ public class AdminController {
 
         UserEntity userFromDbToEdit = userService.findByLogin(userFromHtmlToEdit.getLogin());
 
-        if (!userFromDbToEdit.getEmail().equals(userFromHtmlToEdit.getEmail())
-                && userService.findByEmail(userFromHtmlToEdit.getEmail()) != null) {
+        boolean isUserAlreadyExistsInDb = !userFromDbToEdit.getEmail().equals(userFromHtmlToEdit.getEmail())
+                && userService.findByEmail(userFromHtmlToEdit.getEmail()) != null;
+
+        if (isUserAlreadyExistsInDb) {
 
             model.addAttribute("roles", roleService.findAllRoles());
             model.addAttribute("errorMessage", USER_IS_ALREADY_EXIST_MESSAGE);
@@ -94,6 +96,7 @@ public class AdminController {
             userService.update(userFromHtmlToEdit);
         } catch (UserValidationException e) {
             model.addAttribute("errorMessage", "Wrong input, try again");
+            model.addAttribute("roles", roleService.findAllRoles());
             return "/admin_pages/edit_user";
         }
 
