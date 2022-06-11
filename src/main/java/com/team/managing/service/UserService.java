@@ -3,6 +3,7 @@ package com.team.managing.service;
 import com.team.managing.dao.UserDao;
 import com.team.managing.entity.UserEntity;
 import com.team.managing.exception.UserValidationException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,18 +13,12 @@ import java.util.List;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserService {
     private final UserDao userDao;
     private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
     private final Validator validator;
-
-    public UserService(UserDao userDao, RoleService roleService, PasswordEncoder passwordEncoder, Validator validator) {
-        this.userDao = userDao;
-        this.roleService = roleService;
-        this.passwordEncoder = passwordEncoder;
-        this.validator = validator;
-    }
 
     @Transactional
     public boolean isUserExists(String login, String email) {

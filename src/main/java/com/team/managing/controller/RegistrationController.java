@@ -5,6 +5,7 @@ import com.team.managing.entity.UserEntity;
 import com.team.managing.exception.UserValidationException;
 import com.team.managing.service.RoleService;
 import com.team.managing.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,20 +19,13 @@ import static com.team.managing.constant.ConstantClass.ROLE_USER;
 import static com.team.managing.constant.ConstantClass.USER_IS_ALREADY_EXIST_MESSAGE;
 
 @Controller
+@RequiredArgsConstructor
 public class RegistrationController {
 
     private final RoleService roleService;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final ICaptchaService captchaService;
-
-    public RegistrationController(RoleService roleService, UserService userService,
-                                  PasswordEncoder passwordEncoder, ICaptchaService captchaService) {
-        this.roleService = roleService;
-        this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
-        this.captchaService = captchaService;
-    }
 
     @GetMapping("/signup")
     public String getRegistrationPage() {

@@ -7,7 +7,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -15,7 +14,6 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Component
-@EnableTransactionManagement
 public class HibernateRoleDao extends GenericHibernateDao<RoleEntity> implements RoleDao {
 
     private final SessionFactory sessionFactory;

@@ -1,29 +1,22 @@
 package com.team.managing.captcha;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestOperations;
 
 import java.net.URI;
 
 import static com.team.managing.constant.ConstantClass.CAPTCHA_URL;
-import static com.team.managing.constant.ConstantClass.PROPERTY_SOURCE;
 
-@PropertySource(PROPERTY_SOURCE)
 @Service
+@RequiredArgsConstructor
 public class CaptchaService implements ICaptchaService {
 
     private final RestOperations restTemplate;
 
     @Value("${google.recaptcha.key.secret}")
     private String recaptchaKeySecret;
-
-    @Autowired
-    public CaptchaService(RestOperations restTemplate) {
-        this.restTemplate = restTemplate;
-    }
 
     @Override
     public Boolean processResponse(String response) {

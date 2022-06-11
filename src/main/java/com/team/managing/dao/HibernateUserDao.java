@@ -6,12 +6,10 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.util.List;
 
 @Component
-@EnableTransactionManagement
 public class HibernateUserDao extends GenericHibernateDao<UserEntity> implements UserDao {
 
     private final SessionFactory sessionFactory;

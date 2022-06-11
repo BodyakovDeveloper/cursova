@@ -1,5 +1,6 @@
 package com.team.managing.security;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,16 +18,11 @@ import static com.team.managing.constant.ConstantClass.ROOT_SIGNUP_PAGE;
 import static com.team.managing.constant.ConstantClass.ROOT_USER_PAGES;
 
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
     private final UserDetailsService userDetailsService;
-
-    @Autowired
-    public AppSecurityConfig(PasswordEncoder passwordEncoder, UserDetailsService userDetailsService) {
-        this.passwordEncoder = passwordEncoder;
-        this.userDetailsService = userDetailsService;
-    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

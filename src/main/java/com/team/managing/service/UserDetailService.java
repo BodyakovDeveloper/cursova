@@ -2,6 +2,7 @@ package com.team.managing.service;
 
 import com.team.managing.dao.UserDao;
 import com.team.managing.entity.UserEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,13 +19,9 @@ import java.util.Collections;
 import static com.team.managing.constant.ConstantClass.AUTHENTICATION_ROLE_SUFFIX;
 
 @Component
+@RequiredArgsConstructor
 public class UserDetailService implements UserDetailsService {
     private final UserDao userDao;
-
-    @Autowired
-    public UserDetailService(UserDao userDao) {
-        this.userDao = userDao;
-    }
 
     @Override
     @Transactional

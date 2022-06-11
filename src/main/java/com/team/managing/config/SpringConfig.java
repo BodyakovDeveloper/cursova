@@ -14,12 +14,10 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import org.springframework.web.servlet.view.JstlView;
 
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -54,15 +52,9 @@ public class SpringConfig implements WebMvcConfigurer {
     @Value("${hibernate.connection.password}")
     private String databaseConnectionPassword;
 
-    @Bean
-    public ViewResolver viewResolver() {
-        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-
-        viewResolver.setViewClass(JstlView.class);
-        viewResolver.setPrefix(VIEW_RESOLVER_PREFIX);
-        viewResolver.setSuffix(VIEW_RESOLVER_SUFFIX);
-
-        return viewResolver;
+    @Override
+    public void configureViewResolvers(ViewResolverRegistry registry) {
+        registry.jsp(VIEW_RESOLVER_PREFIX, VIEW_RESOLVER_SUFFIX);
     }
 
     @Bean

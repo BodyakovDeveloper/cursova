@@ -4,6 +4,7 @@ import com.team.managing.entity.UserEntity;
 import com.team.managing.exception.UserValidationException;
 import com.team.managing.service.RoleService;
 import com.team.managing.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,15 +18,11 @@ import static com.team.managing.constant.ConstantClass.USER_IS_ALREADY_EXIST_MES
 
 @Controller
 @RequestMapping("/admin")
+@RequiredArgsConstructor
 public class AdminController {
 
     private final RoleService roleService;
     private final UserService userService;
-
-    public AdminController(RoleService roleService, UserService userService) {
-        this.roleService = roleService;
-        this.userService = userService;
-    }
 
     @GetMapping("/main_page")
     public String getMainPage(Model model, Authentication authentication) {

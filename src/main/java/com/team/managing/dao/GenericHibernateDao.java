@@ -1,18 +1,14 @@
 package com.team.managing.dao;
 
+import lombok.RequiredArgsConstructor;
 import org.hibernate.SessionFactory;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
-@EnableTransactionManagement
 @Transactional
+@RequiredArgsConstructor
 public abstract class GenericHibernateDao<E> implements Dao<E> {
 
     private final SessionFactory sessionFactory;
-
-    protected GenericHibernateDao(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
 
     @Override
     public void create(E entity) {

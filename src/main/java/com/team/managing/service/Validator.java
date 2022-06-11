@@ -70,7 +70,6 @@ public class Validator {
             wrongFieldName.replace(wrongFieldName.length() - 1, wrongFieldName.length(), "");
         }
 
-
         return isValid;
     }
 
