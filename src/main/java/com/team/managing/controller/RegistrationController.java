@@ -36,8 +36,6 @@ public class RegistrationController {
     public String addNewUser(@ModelAttribute("userToRegister") UserEntity user,
                              @RequestParam("g-recaptcha-response") String recaptchaResponse, Model model) {
 
-        user.setRoleEntity(roleService.getRoleByName("USER"));
-
         if (userService.isUserExists(user.getLogin(), user.getEmail())) {
             model.addAttribute("errorMessage", USER_IS_ALREADY_EXIST_MESSAGE);
             return "signup";
